@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Independant</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/registro.css">
+<!--    <link rel="stylesheet" media="screen and (max-width: 749px)" href="styles/indexMobile.css">  -->
+</head>
+
+<body>
+
+    <header id="header">
+
+        <a href="index.html" id="logo" class="noSelect">
+            <img src="images/logos/logo.svg" alt="Independant logo">
+        </a>
+
+
+        <nav id="mainmenu">
+            <a href="index.html">Inicio</a>
+            <a href="#" class="noSelect">Login</a>
+            <a href="#" class="noSelect">Registro</a>
+            <a id="userpic" class="noSelect"></a>
+        </nav>
+
+    </header>
+
+    <nav id="hamburger-menu">
+        <a href="index.html" class="noSelect">Inicio</a>
+        <a href="#" class="noSelect">Login</a>
+        <a href="#" class="noSelect">Registro</a>
+    </nav>
+
+    <script>
+
+        /* Sticky header */
+
+        let cabecera = document.getElementById("header");
+        let logo = document.getElementById("logo").firstElementChild;
+
+        let separacion = cabecera.offsetHeight;
+        let hamburguesa = document.getElementById("userpic");
+        let menuMovil = document.getElementById("hamburger-menu");
+
+        let observer = new IntersectionObserver(callback, { threshold: 1 });
+
+        function callback(entries, observer) {
+
+            if (entries[0].intersectionRatio < 1) {
+
+                cabecera.classList.add("sticky");
+                logo.setAttribute("src", "./images/logos/logo_white_large.png");
+                menuMovil.style.top = separacion + "px";
+
+            }
+
+        }
+
+        observer.observe(cabecera);
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY === 0) {
+
+                cabecera.classList.remove("sticky");
+                logo.setAttribute("src", "images/logos/logo.svg");
+                menuMovil.style.top = "0px";
+
+            }
+
+        })
+
+        /*Cabecera Móvil*/
+
+        hamburguesa.addEventListener("click", () => {
+
+            menuMovil.classList.toggle("mostrar");
+        });
+
+    </script>
+
+    <section id="portada">
+
+        <h2>Registro</h2>
+
+    </section>
+
+    <section id="seccion-registro">
+
+        <h1>Crear mi cuenta como independiente</h1>
+
+        <form action="" method="post">
+
+            <div class="grupo-input">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="i-nombre" placeholder="Ingrese su nombre">
+            </div>
+
+            <div class="grupo-input">
+                <label for="apellido">Apellido</label>
+                <input type="text" name="apellido" id="i-apellido" placeholder="Ingrese su apellido">
+            </div>
+
+            <div class="grupo-input">
+                <label for="fecha">Fecha de nacimiento</label>
+                <input type="date" name="fecha" id="i-fecha">
+            </div>
+
+            <div class="grupo-input">
+                <label for="tipo">Tipo de servicio</label>
+                <select name="tipo" id="i-tipo">
+                    <option value="Carpintería">Carpintería</option>
+                    <option value="Plomería">Plomería</option>
+                    <option value="Peluquería">Peluquería</option>
+                    <option value="Belleza">Belleza</option>
+                    <option value="Educación">Educación</option>
+                    <option value="Fotografía">Fotografía</option>
+                  </select>
+            </div>
+
+            <div class="grupo-input">
+                <label for="mail">Email</label>
+                <input type="email" name="mail" id="i-email" placeholder="Ingrese su email">
+            </div>
+
+            <div class="grupo-input">
+                <label for="contra">Contraseña</label>
+                <input type="password" name="contra" id="i-contra" placeholder="Ingrese su contraseña">
+            </div>
+
+            <div class="grupo-input">
+                <label for="confirmar">Confirmar contraseña</label>
+                <input type="password" name="confirmar" id="i-confirmar" placeholder="Confirme su contraseña">
+            </div>
+
+            <div class="grupo-input">
+                <button type="submit"  class="noSelect">Registrarme</button>
+            </div>
+
+        </form>
+
+
+    </section>
+
+
+    <footer class="footer">
+
+        <div class="cajaf1">
+
+            <img src="./images/logos/logo_white_large.png" alt="logo independant">
+
+        </div>
+
+        <div class="cajaf2">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum modi atque reprehenderit debitis
+                perspiciatis beatae ipsum natus mollitia fuga voluptatem.</p>
+        </div>
+
+        <div class="cajaf3">
+            <h4>Conecta con nosotros</h4>
+            <div class="redes">
+
+                <img src="./images/facebook.svg" alt="logo facebook">
+                <img src="./images/instagram.svg" alt="logo instagram">
+                <img src="./images/linkedin.svg" alt="logo linkedin">
+
+            </div>
+        </div>
+
+        <div class="footer-bajo">
+
+            <p>Copyright ©Independant 2021 - Todos los derechos reservados.</p>
+
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

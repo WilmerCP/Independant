@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Independant</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/registro.css">
+<!--    <link rel="stylesheet" media="screen and (max-width: 749px)" href="styles/indexMobile.css">  -->
+</head>
+
+<body>
+
+    <header id="header">
+
+        <div id="logo">
+            <img src="images/logos/logo_white_large.png" alt="Independant logo">
+        </div>
+
+
+        <nav id="mainmenu">
+            <a href="index.html">Inicio</a>
+            <a href="#">Login</a>
+            <a href="#">Registro</a>
+            <a id="userpic"></a>
+        </nav>
+
+    </header>
+
+    <nav id="hamburger-menu">
+        <a href="index.html">Inicio</a>
+        <a href="#">Login</a>
+        <a href="#">Registro</a>
+    </nav>
+
+    <script>
+
+        let cabecera = document.getElementById("header");
+
+        let separacion = cabecera.offsetHeight;
+        let hamburguesa = document.getElementById("userpic");
+        let menuMovil = document.getElementById("hamburger-menu");
+
+        menuMovil.style.top = separacion+"px";
+
+        /*Cabecera Móvil*/
+
+        hamburguesa.addEventListener("click", () => {
+
+            menuMovil.classList.toggle("mostrar");
+        });
+
+    </script>
+
+
+    <footer class="footer">
+
+        <div class="cajaf1">
+
+            <img src="./images/logos/logo_white_large.png" alt="logo independant">
+
+        </div>
+
+        <div class="cajaf2">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum modi atque reprehenderit debitis
+                perspiciatis beatae ipsum natus mollitia fuga voluptatem.</p>
+        </div>
+
+        <div class="cajaf3">
+            <h4>Conecta con nosotros</h4>
+            <div class="redes">
+
+                <img src="./images/facebook.svg" alt="logo facebook">
+                <img src="./images/instagram.svg" alt="logo instagram">
+                <img src="./images/linkedin.svg" alt="logo linkedin">
+
+            </div>
+        </div>
+
+        <div class="footer-bajo">
+
+            <p>Copyright ©Independant 2021 - Todos los derechos reservados.</p>
+
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

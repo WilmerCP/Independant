@@ -12,7 +12,7 @@ Esta aplicación web va a contar con 2 servicios principales:
 
 + El perfil va a contener foto de perfil, descripcion, nombre, ubicación, tipo de servicio, reputación.
 + Abajo de esto hay especio para publicar hasta 6 servicios diferentes, con tarjetas con información básica, la opción de contactar y de ver más.
-+ Al clickear ver más salta un popup para poder ver una descripción más detallada, fotos de trabajos previos, reseñas...
++ Al clickear ver más salta un popup para poder ver una descripción más detallada,espacio para un video opcional, fotos de trabajos previos, reseñas...
 + Los servicios a su vez como los perfiles van a tener categorías.
 
 Tanto el perfil como los servicios van a tener calificación y reseñas.

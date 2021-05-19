@@ -80,6 +80,14 @@
 
 }
 
+#mainmenu a:hover{
+    /*
+    box-shadow: 1px 1px 10px 3px rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.648); */
+    
+    color: rgb(224, 167, 12);
+}
+
 
 #mainmenu #userpic{
 
@@ -205,6 +213,64 @@
     grid-area: titre;
 
 }
+/*Contenedor con el input de busqueda del header */
+
+.contenedor-buscador-header {
+    grid-area: bar;
+    padding: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-buscador-header {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-left: 1.7em;
+    padding-right: 1.7em;
+    height: 00.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    border-radius: 20px;
+}
+
+#buscador-header {
+    outline:none;
+    border: none;
+    font-size: 1.1rem;
+    font-family: 16px;
+    background-color: white;
+    border-radius: 20px;
+    margin: 1px;
+    padding: 5px;
+    width: 20em;
+}
+
+.overlay-buscador-header button{
+    border: none;
+    background-color: var(--principal);
+    margin-left: 10px;
+    padding: 0.7em;
+    padding-left: 1.9em;
+    padding-right: 1.9em;
+    border-radius: 20px;
+}
+
+.overlay-buscador-header button img{
+
+    width: 1.4em;
+    height: auto;
+
+}
+
+.overlay-buscador-header button:hover{
+
+    background-color: var(--hover);
+    transition: 0.7s ease;
+}
+
 
 /*Contenedor con el input de busqueda*/
 

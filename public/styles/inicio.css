@@ -4,7 +4,7 @@
 
     --principal: #FA7921;
     --hover: #fac721;
-    --texto:#2b2b2b;
+    --texto:#202020;
     --fondo: #f5f5f5;
     --secundario: #012f47;
     --titulos: black;
@@ -228,6 +228,140 @@ h1{
     font-size: 1.2em;
 }
 
+/*Estilos de la seccion del slider*/
+
+    .section-slider{
+
+        background-color: rgb(245, 245, 245);
+        padding-top: 6em;
+
+    }
+
+    .section-slider h2{
+
+        font-family: var(--fuente-principal);
+        color: var(--texto);
+        font-weight: bold;
+        font-size: 2.6em;
+        margin-left: 1.7em;
+        margin-bottom: 1.5em;
+
+    }
+
+    .slider{
+
+        width: 100%;
+        overflow: hidden;
+        padding-top: 2em;
+        padding-bottom: 2em;
+        scroll-behavior: smooth;
+
+    }
+
+    .slides{
+
+        width: max-content;
+
+        display: flex;
+
+
+    }
+
+    .testimonio{
+
+        width: 20em;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        margin-left: 3em;
+
+    }
+
+    .testimonio img{
+
+        border-radius: 50%;
+        width: 60%;
+        margin: auto;
+
+    }
+
+    .testimonio h5{
+
+        font-family: var(--fuente-principal);
+        font-weight: bold;
+        font-size: 1.4em;
+        margin-top: 0.5em;
+
+    }
+
+    .testimonio span{
+
+        font-size: 1em;
+        font-family: var(--fuente-principal);
+        margin-bottom: 0.5em;
+        margin-top: 0.4em;
+        font-weight: 400;
+        font-style: oblique;
+    }
+
+    .testimonio p{
+
+        font-size: 0.95em;
+        font-family: var(--fuente-principal);
+        max-width: 90%;
+        margin: auto;
+      
+    }
+
+    .ancla-testimonio{
+
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        background-color: transparent;
+        position: absolute;
+        top: -30vh;
+        right: 0;
+        width: 100%;
+
+    }
+/*
+    #testimonio-1{
+
+        left: -15px;
+
+
+    }*/
+
+    .sliderbuttons{
+
+        display: inline-block;
+        width: 0.8em;
+        height: 0.8em;
+        background-color: var(--principal);
+        border-radius: 50%;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .contenedor-botones-slider{
+
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 4em;
+
+    }
+
+    #sliderbutton2, #sliderbutton3, #sliderbutton4, #sliderbutton5{
+
+        display: none;
+
+    }
+
+
 /*Estilos del footer*/
 
 .footer{
@@ -351,6 +485,17 @@ h1{
 
 
    }
+
+
+}
+
+@media screen and (max-width: 1074px){
+
+    #sliderbutton3, #sliderbutton4{
+
+        display: inline-block;
+
+    }
 
 
 }
@@ -488,6 +633,12 @@ h1{
 
 @media screen and (max-width: 689px){
 
+    #sliderbutton2, #sliderbutton5{
+
+        display: inline-block;
+
+    }
+
     h1{
 
         max-width: 100%;
@@ -547,6 +698,13 @@ h1{
         width: 100%;
     
     }
+
+    .section-slider h2{
+
+        text-align: center;
+        margin-left: 0;
+
+    }
     
 }
 
@@ -578,6 +736,24 @@ h1{
     .hero p{
 
         font-size: 1.2em;
+
+    }
+
+    .testimonio{
+
+        width: 100vw;
+        padding-right: 1%;
+        padding-left: 1%;
+        margin-left: 0;
+        margin-right: 1em;
+
+    }
+
+    .section-slider h2{
+
+        font-size: 2em;
+        padding-left: 5%;
+        padding-right: 5%;
 
     }
     

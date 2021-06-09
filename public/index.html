@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Independant</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/inicio.css">
+    <script src="https://kit.fontawesome.com/13e83b4ad6.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <header id="header">
+
+        <div id="logo">
+            <img src="images/logos/logo_white_large.png" alt="Independant logo">
+        </div>
+
+
+        <nav id="mainmenu">
+            <a href="index.html">Inicio</a>
+            <a href="#">Login</a>
+            <a href="#">Registro</a>
+            <a id="userpic"></a>
+        </nav>
+
+    </header>
+
+    <nav id="hamburger-menu">
+        <a href="index.html">Inicio</a>
+        <a href="#">Login</a>
+        <a href="#">Registro</a>
+    </nav>
+
+    <script>
+
+        /* Sticky header */
+
+        let cabecera = document.getElementById("header");
+        let logo = document.getElementById("logo").firstElementChild;
+
+        let separacion = cabecera.offsetHeight;
+        let hamburguesa = document.getElementById("userpic");
+        let menuMovil = document.getElementById("hamburger-menu");
+
+        let observer = new IntersectionObserver(callback, { threshold: 1 });
+
+        function callback(entries, observer) {
+
+            if (entries[0].intersectionRatio < 1) {
+
+                cabecera.classList.add("sticky");
+                logo.setAttribute("src", "./images/logos/logo_white_large.png");
+                menuMovil.style.top = separacion + "px";
+
+            }
+
+        }
+
+        observer.observe(cabecera);
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY === 0) {
+
+                cabecera.classList.remove("sticky");
+                logo.setAttribute("src", "images/logos/logo.svg");
+                menuMovil.style.top = "0px";
+
+            }
+
+        })
+
+        /*Cabecera Móvil*/
+
+        hamburguesa.addEventListener("click", () => {
+
+            menuMovil.classList.toggle("mostrar");
+        });
+
+    </script>
+
+    <section class="hero">
+
+        <h1>Tenemos a los expertos en prestar el mejor servicio.</h1>
+        <P>Trabaje con la red más grande de profesionales independientes y obtenga resultados, desde entregas rápidas hasta grandes transformaciones.</P>
+
+        <div class="contenedorbotonesinicio">
+
+            <div class="botonesinicio">
+                <h3>Encuentra un servicio</h3>
+                <span>Ir al buscador</span>
+                <i class="fas fa-arrow-right"></i>
+            </div>
+    
+            <div class="botonesinicio">
+                <h3>Encuentra clientes</h3>
+                <span>Registrarse</span>
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+
+    <footer class="footer">
+
+        <div class="cajaf1">
+
+            <img src="./images/logos/logo_white_large.png" alt="logo independant">
+
+        </div>
+
+        <div class="cajaf2">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum modi atque reprehenderit debitis
+                perspiciatis beatae ipsum natus mollitia fuga voluptatem.</p>
+        </div>
+
+        <div class="cajaf3">
+            <h4>Conecta con nosotros</h4>
+            <div class="redes">
+
+                <img src="./images/facebook.svg" alt="logo facebook">
+                <img src="./images/instagram.svg" alt="logo instagram">
+                <img src="./images/linkedin.svg" alt="logo linkedin">
+
+            </div>
+        </div>
+
+        <div class="footer-bajo">
+
+            <p>Copyright ©Independant 2021 - Todos los derechos reservados.</p>
+
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

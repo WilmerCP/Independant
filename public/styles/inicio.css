@@ -529,6 +529,12 @@ h1{
 
     }
 
+    .slider{
+
+        overflow: scroll;
+
+    }
+
 }
 
 @media screen and (max-width: 830px){
@@ -738,6 +744,7 @@ h1{
         font-size: 1.2em;
 
     }
+ 
 
     .testimonio{
 

@@ -9,17 +9,17 @@ const _data = require('../lib/data');
 
 const handler = {};
 
-handler.users = function(data,callback){
+handler.users = function (data, callback) {
 
-    let validMethods = ['POST','GET','PUT','DELETE'];
+    let validMethods = ['POST', 'GET', 'PUT', 'DELETE'];
 
-    if(validMethods.includes(data.method)){
+    if (validMethods.includes(data.method)) {
 
-        handler._users[data.method](data,callback);
+        handler._users[data.method](data, callback);
 
-    }else{
+    } else {
 
-        callback(405,{"error":"method not allowed"});
+        callback(405, { "error": "method not allowed" });
 
     }
 
@@ -27,7 +27,7 @@ handler.users = function(data,callback){
 
 handler._users = {};
 
-handler._users.POST = function(data,callback){
+handler._users.POST = function (data, callback) {
 
     let payload = data.content;
 
@@ -39,7 +39,7 @@ handler._users.POST = function(data,callback){
     let hashedPassword = helpers.hash(password);
 
 
-    if(firstName && lastName && hashedPassword && phoneNumber && tosAgreement){
+    if (firstName && lastName && hashedPassword && phoneNumber && tosAgreement) {
 
         let user = {
 
@@ -47,29 +47,29 @@ handler._users.POST = function(data,callback){
             lastName: lastName,
             hashedPassword: hashedPassword,
             phoneNumber: phoneNumber,
-            tosAgreement:true
-    
+            tosAgreement: true
+
         }
 
-       _data.create("users",phoneNumber,user)
-       .then((e)=>{
+        _data.create("users", phoneNumber, user)
+            .then((e) => {
 
-        if(e){
-            
-            callback(500,{'Error':'Could not store the data, the user may already exist'});
+                if (e) {
 
-        }else{
+                    callback(500, { 'Error': 'Could not store the data, the user may already exist' });
 
-            callback(200,{'Nice':'The POST operation was succesful'});   
+                } else {
 
-        }     
+                    callback(200, { 'Nice': 'The POST operation was succesful' });
 
-       })
+                }
+
+            })
 
 
-    }else{
+    } else {
 
-        callback(400,{'Error':'Missing or not suitable fields'});
+        callback(400, { 'Error': 'Missing or not suitable fields' });
 
 
     }
@@ -77,7 +77,7 @@ handler._users.POST = function(data,callback){
 
 }
 
-handler._users.PUT = function(data,callback){
+handler._users.PUT = function (data, callback) {
 
     let payload = data.content;
 
@@ -85,158 +85,203 @@ handler._users.PUT = function(data,callback){
     let lastName = helpers.validName(payload.lastName);
     let password = helpers.validPassword(payload.password);
     let phoneNumber = helpers.validPhoneNumber(payload.phoneNumber);
-    
-    if(phoneNumber){
+    let tokenId = helpers.validToken(data.headers.tokenid);
 
-        if(firstName || lastName || password){
+    if (phoneNumber) {
 
-            _data.read('users',phoneNumber)
-            .then((res)=>{
+        handler._tokens.authenticate(tokenId, phoneNumber, (allowed) => {
 
-                if(res){
+            if (allowed) {
 
-                    if(firstName){
+                if (firstName || lastName || password) {
 
-                        res.firstName = firstName;
+                    _data.read('users', phoneNumber)
+                        .then((res) => {
 
-                    }
+                            if (res) {
 
-                    if(lastName){
+                                if (firstName) {
 
-                        res.lastName = lastName;
+                                    res.firstName = firstName;
 
-                    }
+                                }
 
-                    if(password){
+                                if (lastName) {
 
-                        res.hashedPassword = helpers.hash(password);
+                                    res.lastName = lastName;
 
-                    }
+                                }
 
-                    _data.update('users',phoneNumber,res)
-                    .then((e)=>{
+                                if (password) {
 
-                        if(e){
+                                    res.hashedPassword = helpers.hash(password);
 
-                            callback(500,{'Error':'Could not store the data, the user may already exist'});
+                                }
 
+                                _data.update('users', phoneNumber, res)
+                                    .then((e) => {
 
-                        }else{
+                                        if (e) {
 
-                            callback(200,{'Nice':'The PUT operation was succesful'});
-
-                        }
+                                            callback(500, { 'Error': 'Could not store the data, the user may already exist' });
 
 
-                    });
+                                        } else {
 
-                }else{
+                                            callback(200, { 'Nice': 'The PUT operation was succesful' });
 
-                    callback(404, {'Error':'This user does not exist'});
+                                        }
+
+
+                                    });
+
+                            } else {
+
+                                callback(404, { 'Error': 'This user does not exist' });
+
+                            }
+
+                        });
+
+                } else {
+
+                    callback(400, { 'Error': 'Must provide a field to update' });
 
                 }
 
-            });
-
-        }else{
-
-            callback(400,{'Error':'Must provide a field to update'});
-
-        }
-
-    }else{
-
-        callback(400,{'Error':'Must provide a valid phone number'});
 
 
-    } 
-    
+            } else {
+
+                callback(403, { 'Error': 'Must provide a valid token' });
+
+            }
+
+
+        });
+
+
+    } else {
+
+        callback(400, { 'Error': 'Must provide a valid phone number' });
+
+
+    }
+
 }
 
-handler._users.DELETE = function(data,callback){
- 
+handler._users.DELETE = function (data, callback) {
+
     let pn = data.url.searchParams.get('phoneNumber');
     let phoneNumber = helpers.validPhoneNumber(pn);
- 
+    let tokenId = helpers.validToken(data.headers.tokenid);
 
-    if(phoneNumber){
+    if (phoneNumber) {
 
-        _data.delete('users',phoneNumber)
-        .then((res)=>{
+        handler._tokens.authenticate(tokenId, phoneNumber, (allowed) => {
 
-            if(!res){
+            if (allowed) {
 
-                callback(200,{'Nice':'The DELETE operation was succesful'});  
+                _data.delete('users', phoneNumber)
+                    .then((res) => {
 
-            }else{
+                        if (!res) {
 
-                callback(500, {'Error':'Could not delete the user, it may not exist'});
+                            callback(200, { 'Nice': 'The DELETE operation was succesful' });
+
+                        } else {
+
+                            callback(500, { 'Error': 'Could not delete the user, it may not exist' });
+
+                        }
+
+                    });
+
+            } else {
+
+                callback(403, { 'Error': 'You should have a valid token' });
 
             }
 
         });
 
-    }else{
+    } else {
 
-        callback(400,{'Error':'Must provide a valid phone number'});
+        callback(400, { 'Error': 'Must provide a valid phone number' });
     }
 }
 
-handler._users.GET = function(data,callback){
+handler._users.GET = function (data, callback) {
 
     let pn = data.url.searchParams.get('phoneNumber');
     let phoneNumber = helpers.validPhoneNumber(pn);
- 
+    let tokenId = helpers.validToken(data.headers.tokenid);
 
-    if(phoneNumber){
+    if (phoneNumber) {
 
-        let user = _data.read('users',phoneNumber)
-        .then((res)=>{
+        handler._tokens.authenticate(tokenId, phoneNumber, (allowed) => {
 
-            if(res){
+            if (allowed) {
 
-                delete res.hashedPassword;
+                let user = _data.read('users', phoneNumber)
+                    .then((res) => {
 
-                callback(200,res);
+                        if (res) {
 
-            }else{
+                            delete res.hashedPassword;
 
-                callback(404, {'Error':'This user does not exist'});
+                            callback(200, res);
+
+                        } else {
+
+                            callback(404, { 'Error': 'This user does not exist' });
+
+                        }
+
+                    });
+
+
+
+            } else {
+
+                callback(403, { 'Error': 'You should have a valid token' });
 
             }
 
         });
 
-    }else{
 
-        callback(400,{'Error':'Must provide a valid phone number'});
+
+    } else {
+
+        callback(400, { 'Error': 'Must provide a valid phone number' });
     }
-    
+
 }
 
-handler.ping = function(data,callback){
+handler.ping = function (data, callback) {
 
-    callback(200,{'Ping':'Server is up'});
-
-};
-
-handler.notFound = function(data,callback){
-
-    callback(404,{'status':'404 not found'});
+    callback(200, { 'Ping': 'Server is up' });
 
 };
 
-handler.tokens = function(data,callback){
+handler.notFound = function (data, callback) {
 
-    let validMethods = ['POST','GET','PUT','DELETE'];
+    callback(404, { 'status': '404 not found' });
 
-    if(validMethods.includes(data.method)){
+};
 
-        handler._tokens[data.method](data,callback);
+handler.tokens = function (data, callback) {
 
-    }else{
+    let validMethods = ['POST', 'GET', 'PUT', 'DELETE'];
 
-        callback(405,{"Error":"method not allowed"});
+    if (validMethods.includes(data.method)) {
+
+        handler._tokens[data.method](data, callback);
+
+    } else {
+
+        callback(405, { "Error": "method not allowed" });
 
     }
 
@@ -244,22 +289,22 @@ handler.tokens = function(data,callback){
 
 handler._tokens = {};
 
-handler._tokens.POST = function(data, callback){
+handler._tokens.POST = function (data, callback) {
 
     let payload = data.content;
     let phoneNumber = helpers.validPhoneNumber(payload.phoneNumber);
     let password = helpers.validPassword(payload.password);
-    let hashedPassword = typeof(password) === "string" ? helpers.hash(password) : false;
+    let hashedPassword = typeof (password) === "string" ? helpers.hash(password) : false;
 
-    if(phoneNumber && hashedPassword){
+    if (phoneNumber && hashedPassword) {
 
-        _data.read('users',phoneNumber).then((userData)=>{
+        _data.read('users', phoneNumber).then((userData) => {
 
-            if(userData){
+            if (userData) {
 
                 let userPassword = userData.hashedPassword;
 
-                if(userPassword === hashedPassword){
+                if (userPassword === hashedPassword) {
 
 
                     //Random 20-character string will be the authentication token
@@ -270,71 +315,71 @@ handler._tokens.POST = function(data, callback){
 
                     let token = {
 
-                        tokenId:tokenId,
-                        phoneNumber:phoneNumber,
+                        tokenId: tokenId,
+                        phoneNumber: phoneNumber,
                         expires: expiringDate,
 
                     }
 
-                    _data.create('tokens',tokenId,token)
+                    _data.create('tokens', tokenId, token)
 
-                    .then((e)=>{
+                        .then((e) => {
 
-                        if(e){
-            
-                            callback(500,{'Error':'Could not register the token'});
-                
-                        }else{
-                
-                            callback(200,token);   
-                
-                        }   
+                            if (e) {
 
+                                callback(500, { 'Error': 'Could not register the token' });
 
-                    });
+                            } else {
+
+                                callback(200, token);
+
+                            }
 
 
+                        });
 
 
-                }else{
 
-                    callback(400,{'Error':'The password is incorrect'});
+
+                } else {
+
+                    callback(400, { 'Error': 'The password is incorrect' });
 
                 }
 
 
 
-            }else{
+            } else {
 
-                callback(500,{'Error':'Could not find any data for this user'});
+                callback(500, { 'Error': 'Could not find any data for this user' });
 
             }
 
 
         });
 
-    }else{
+    } else {
 
-        callback(400,{'Error': 'Missing or not suitable fields'});
+        callback(400, { 'Error': 'Missing or not suitable fields' });
 
     }
 
 }
 
-handler._tokens.GET = function(data, callback){
+handler._tokens.GET = function (data, callback) {
 
     let ti = data.url.searchParams.get('tokenId');
-    let tokenId = helpers.validToken(ti);    
-    
-    if(tokenId){
+    let tokenId = helpers.validToken(ti);
 
-        _data.read('tokens',tokenId).then((data)=>{
+    if (tokenId) {
 
-            if(data){
+        _data.read('tokens', tokenId).then((data) => {
 
-                callback(200,data);
+            if (data) {
 
-            }else{
+                callback(200, data);
+
+            } else {
 
                 callback(404);
 
@@ -344,37 +389,37 @@ handler._tokens.GET = function(data, callback){
         });
 
 
-    }else{
+    } else {
 
-        callback(400,{'Error':'Must provide a valid token id'});
+        callback(400, { 'Error': 'Must provide a valid token id' });
 
     }
 
 
 }
 
-handler._tokens.PUT = function(data,callback){
+handler._tokens.PUT = function (data, callback) {
 
-    let tokenId = helpers.validToken(data.content.tokenId);    
-    let extend = typeof(data.content.extend) === 'boolean' ? data.content.extend : false ;
+    let tokenId = helpers.validToken(data.content.tokenId);
+    let extend = typeof (data.content.extend) === 'boolean' ? data.content.extend : false;
 
-    if(tokenId && extend){
+    if (tokenId && extend) {
 
-        _data.read('tokens',tokenId).then((data)=>{
+        _data.read('tokens', tokenId).then((data) => {
 
-            if(data){
+            if (data) {
 
-                if(data.expires>Date.now()){
+                if (data.expires > Date.now()) {
 
                     data.expires = data.expires + 1000 * 60 * 60;
 
-                    _data.update('tokens',tokenId,data).then((e)=>{
+                    _data.update('tokens', tokenId, data).then((e) => {
 
-                        if(!e){
+                        if (!e) {
 
                             callback(200);
 
-                        }else{
+                        } else {
 
                             callback(500);
 
@@ -383,15 +428,15 @@ handler._tokens.PUT = function(data,callback){
                     });
 
 
-                }else{
+                } else {
 
-                    callback(400,{'Error':'The token has already expired'});
+                    callback(400, { 'Error': 'The token has already expired' });
 
                 }
 
 
 
-            }else{
+            } else {
 
                 callback(404);
 
@@ -401,42 +446,67 @@ handler._tokens.PUT = function(data,callback){
         });
 
 
-    }else{
+    } else {
 
-        callback(400,{'Error':'The user must provide valid fields'});
+        callback(400, { 'Error': 'The user must provide valid fields' });
 
     }
 
 }
 
-handler._tokens.DELETE = function(data,callback){
- 
+handler._tokens.DELETE = function (data, callback) {
+
     let ti = data.url.searchParams.get('tokenId');
     let tokenId = helpers.validToken(ti);
- 
 
-    if(tokenId){
 
-        _data.delete('tokens',tokenId)
-        .then((res)=>{
+    if (tokenId) {
 
-            if(!res){
+        _data.delete('tokens', tokenId)
+            .then((res) => {
 
-                callback(200,{'Nice':'The DELETE operation was succesful'});  
+                if (!res) {
 
-            }else{
+                    callback(200, { 'Nice': 'The DELETE operation was succesful' });
 
-                callback(500, {'Error':'Could not delete the token, it may not exist'});
+                } else {
 
-            }
+                    callback(500, { 'Error': 'Could not delete the token, it may not exist' });
 
-        });
+                }
 
-    }else{
+            });
 
-        callback(400,{'Error':'Must provide a valid token '});
+    } else {
+
+        callback(400, { 'Error': 'Must provide a valid token ' });
     }
 }
 
+handler._tokens.authenticate = function (tokenId, phoneNumber, callback) {
+
+   if (tokenId) {
+        _data.read('tokens', tokenId)
+            .then((data) => {
+
+                if (data) {
+
+                    callback(data.phoneNumber === phoneNumber && data.expires > Date.now() ? true : false);
+
+
+                } else {
+
+                    callback(false);
+
+                }
+
+            });
+    } else {
+
+        callback(false);
+
+    }
+
+}
 
 module.exports = handler;

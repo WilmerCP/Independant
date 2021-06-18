@@ -1,12 +1,9 @@
 /*
-* Handlers for different routes
-*
-*/
+ * Handlers for different routes
+ */
 
-const helpers = require('../lib/helpers');
-const _data = require('../lib/data');
-
-
+const helpers = require("../lib/helpers");
+const _data = require("../lib/data");
 const handler = {};
 
 handler.users = function (data, callback) {
@@ -21,9 +18,12 @@ handler.users = function (data, callback) {
 
         callback(405, { "error": "method not allowed" });
 
-    }
-
-}
+  if (validMethods.includes(data.method)) {
+    handler._users[data.method](data, callback);
+  } else {
+    callback(405, { error: "method not allowed" });
+  }
+};
 
 handler._users = {};
 
@@ -204,6 +204,14 @@ handler._users.DELETE = function (data, callback) {
             }
 
         });
+      } else {
+        callback(200, { Nice: "The POST operation was succesful" });
+      }
+    });
+  } else {
+    callback(400, { Error: "Missing or not suitable fields" });
+  }
+};
 
     } else {
 
@@ -283,9 +291,15 @@ handler.tokens = function (data, callback) {
 
         callback(405, { "Error": "method not allowed" });
 
-    }
+handler.tokens = function (data, callback) {
+  let validMethods = ["POST", "GET", "PUT", "DELETE"];
 
-}
+  if (validMethods.includes(data.method)) {
+    handler._tokens[data.method](data, callback);
+  } else {
+    callback(405, { Error: "method not allowed" });
+  }
+};
 
 handler._tokens = {};
 
@@ -417,7 +431,7 @@ handler._tokens.PUT = function (data, callback) {
 
                         if (!e) {
 
-                            callback(200);
+          let tokenId = helpers.createToken(20);
 
                         } else {
 
@@ -442,6 +456,33 @@ handler._tokens.PUT = function (data, callback) {
 
             }
 
+          let token = {
+            tokenId: tokenId,
+            phoneNumber: phoneNumber,
+            expires: expiringDate,
+          };
+
+          _data
+            .create("tokens", tokenId, token)
+
+            .then((e) => {
+              if (e) {
+                callback(500, { Error: "Could not register the token" });
+              } else {
+                callback(200, token);
+              }
+            });
+        } else {
+          callback(400, { Error: "The password is incorrect" });
+        }
+      } else {
+        callback(500, { Error: "Could not find any data for this user" });
+      }
+    });
+  } else {
+    callback(400, { Error: "Missing or not suitable fields" });
+  }
+};
 
         });
 

@@ -7,7 +7,7 @@
     <title>Registro - Independant</title>
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/registro.css">
-<!--    <link rel="stylesheet" media="screen and (max-width: 749px)" href="styles/indexMobile.css">  -->
+    <!--    <link rel="stylesheet" media="screen and (max-width: 749px)" href="styles/indexMobile.css">  -->
 </head>
 
 <body>
@@ -35,28 +35,21 @@
     </nav>
 
     <script>
-
         /* Sticky header */
-
         let cabecera = document.getElementById("header");
         let logo = document.getElementById("logo").firstElementChild;
-
         let separacion = cabecera.offsetHeight;
         let hamburguesa = document.getElementById("userpic");
         let menuMovil = document.getElementById("hamburger-menu");
-
         let observer = new IntersectionObserver(callback, { threshold: 1 });
 
         function callback(entries, observer) {
 
             if (entries[0].intersectionRatio < 1) {
-
                 cabecera.classList.add("sticky");
                 logo.setAttribute("src", "./images/logos/logo_white_large.png");
                 menuMovil.style.top = separacion + "px";
-
             }
-
         }
 
         observer.observe(cabecera);
@@ -68,15 +61,10 @@
                 cabecera.classList.remove("sticky");
                 logo.setAttribute("src", "images/logos/logo.svg");
                 menuMovil.style.top = "0px";
-
             }
-
         })
-
         /*Cabecera Móvil*/
-
         hamburguesa.addEventListener("click", () => {
-
             menuMovil.classList.toggle("mostrar");
         });
 
@@ -118,7 +106,7 @@
                     <option value="Belleza">Belleza</option>
                     <option value="Educación">Educación</option>
                     <option value="Fotografía">Fotografía</option>
-                  </select>
+                </select>
             </div>
 
             <div class="grupo-input">
@@ -137,7 +125,7 @@
             </div>
 
             <div class="grupo-input">
-                <button type="submit"  class="noSelect">Registrarme</button>
+                <button type="submit" class="noSelect">Registrarme</button>
             </div>
 
         </form>

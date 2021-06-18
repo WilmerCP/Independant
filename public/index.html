@@ -18,7 +18,6 @@
             <img src="images/logos/logo_white_large.png" alt="Independant logo">
         </div>
 
-
         <nav id="mainmenu">
             <a href="#">Inicio</a>
             <a href="#">Login</a>
@@ -40,7 +39,6 @@
 
         let cabecera = document.getElementById("header");
         let logo = document.getElementById("logo").firstElementChild;
-
         let separacion = cabecera.offsetHeight;
         let hamburguesa = document.getElementById("userpic");
         let menuMovil = document.getElementById("hamburger-menu");
@@ -84,15 +82,16 @@
 
     <section class="hero">
 
-        <h1>Tenemos a los expertos en prestar el mejor servicio.</h1>
-        <P>Trabaje con la red más grande de profesionales independientes y obtenga resultados, desde entregas rápidas
-            hasta grandes transformaciones.</P>
+        <h1 class="hero__h1">Tenemos a los expertos en prestar el mejor servicio.</h1>
+        <p class="hero__paragraph">Trabaje con la red más grande de profesionales independientes y obtenga resultados,
+            desde entregas rápidas
+            hasta grandes transformaciones.</p>
 
-        <div class="contenedorbotonesinicio">
+        <div class="hero__contenedor">
 
-            <div class="botonesinicio">
-                <h3>Encuentra un servicio</h3>
-                <span>Ir al buscador</span>
+            <div class="hero__botones--inicio">
+                <h3 class="hero__botones--h3">Encuentra un servicio</h3>
+                <span class="hero__botones--span">Ir al buscador</span>
                 <i class="fas fa-arrow-right"></i>
             </div>
 

@@ -55,7 +55,6 @@ handler._users.POST = function (data, callback) {
 
 handler._users.PUT = function (data, callback) {
   let payload = data.content;
-
   let firstName = helpers.validName(payload.firstName);
   let lastName = helpers.validName(payload.lastName);
   let password = helpers.validPassword(payload.password);

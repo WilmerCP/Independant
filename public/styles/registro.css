@@ -7,7 +7,6 @@
   --fondo: #f5f5f5;
   --secundario: #012f47;
   --titulos: black;
-
   --fuente-principal: "Montserrat";
 }
 
@@ -145,7 +144,6 @@
   background-repeat: no-repeat;
   background-color: rgba(34, 34, 34, 0.432);
   background-blend-mode: overlay;
-
   box-shadow: inset 2px 2px 10px 3px #272727b7,
     inset -2px -2px 10px 3px #272727b7;
 }
@@ -173,7 +171,6 @@
   font-weight: 600;
   margin-bottom: 1.4em;
   color: var(--secundario);
-  /*text-shadow:  black 2px 2px 0px;*/
 }
 
 #seccion-registro form {
@@ -183,7 +180,6 @@
   margin: auto;
   justify-content: center;
   padding: 1em 0.5em 2em 0.5em;
-
   background-color: rgba(0, 0, 0, 0.603);
   z-index: 20;
 }
@@ -227,7 +223,6 @@ input[type="date"] {
   font-size: 1.2em;
   margin-top: 1em;
   font-weight: 500;
-
   background-color: var(--principal);
   border: none;
   border-radius: 40px;

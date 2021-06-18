@@ -1,5 +1,4 @@
 //Dependencies
-
 const http = require("http");
 const { StringDecoder } = require("string_decoder");
 const config = require("./config");
@@ -36,13 +35,9 @@ function handlerHttps(req, res) {
 
 function behaviour(req, res, protocol) {
   let myUrl = new URL(protocol + "://" + req.headers.host + req.url);
-
   let method = req.method.toUpperCase();
-
   let headers = req.headers;
-
   let payload = "";
-
   const decoder = new StringDecoder("utf-8");
 
   req.on("data", (chunk) => {
@@ -66,7 +61,6 @@ function behaviour(req, res, protocol) {
 
     currentHandler(data, (statusCode, answer) => {
       let resCode = typeof statusCode === "number" ? statusCode : 200;
-
       let resAnswer = typeof answer === "object" ? answer : {};
 
       res.setHeader("Content-Type", "application/json");
